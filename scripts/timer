@@ -1,0 +1,15 @@
+#!/bin/python
+
+from time import localtime, mktime, strftime
+
+start_time = localtime()
+print("Timer started at %s" % strftime("%X", start_time))
+
+# Wait for user to stop timer
+raw_input("Press any key to stop timer ")
+
+stop_time = localtime()
+difference = mktime(stop_time) - mktime(start_time)
+
+print("Timer stopped at %s" % strftime("%X", stop_time))
+print("Total time: %s seconds" % difference)
