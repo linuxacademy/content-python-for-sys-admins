@@ -23,6 +23,7 @@ sudo docker run -d \
   -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
   -e POSTGRES_DB=sample \
   -p 80:5432 \
+  --restart always \
   postgres:9.6-alpine
 
 sleep 10
