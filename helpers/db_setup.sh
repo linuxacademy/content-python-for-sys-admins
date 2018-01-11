@@ -26,7 +26,7 @@ sudo docker run -d \
   --restart always \
   postgres:9.6-alpine
 
-sleep 10
+sleep 15
 
 sudo docker exec -i postgres psql -U $POSTGRES_USER -d sample <<-EOF
 create table employees (
