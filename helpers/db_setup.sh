@@ -16,6 +16,8 @@ read -s -p "Postgres user password: " password
 export POSTGRES_USER=$name
 export POSTGRES_PASSWORD=$password
 
+sudo docker rm --force postgres || true
+
 echo "Creating database container (and seed 'sample' database)"
 sudo docker run -d \
   --name postgres \
@@ -24,9 +26,9 @@ sudo docker run -d \
   -e POSTGRES_DB=sample \
   -p 80:5432 \
   --restart always \
-  postgres:9.6-alpine
+  postgres:9.6.8-alpine
 
-sleep 15
+sleep 20 # Ensure enough time for postgres database to initialize and create role
 
 sudo docker exec -i postgres psql -U $POSTGRES_USER -d sample <<-EOF
 create table employees (
