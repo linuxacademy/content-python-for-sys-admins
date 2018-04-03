@@ -3,7 +3,18 @@
 echo "Updating and installing Docker"
 sudo yum update -y
 sudo yum upgrade -y
-sudo yum install -y docker
+
+# First install docker requirements
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+
+# Setup stable docker-ce repo
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+
+# Changed docker to docker-ce (as per docker documentation)
+# https://docs.docker.com/install/linux/docker-ce/centos/#install-using-the-repository
+sudo yum install -y docker-ce
 
 echo "Starting and enabling Docker"
 sudo systemctl start docker
