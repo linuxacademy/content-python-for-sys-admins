@@ -4,7 +4,7 @@ echo "Updating and installing Docker"
 sudo yum update -y
 sudo yum upgrade -y
 
-sudo yum remove docker \
+sudo yum remove -y docker \
     docker-client \
     docker-client-latest \
     docker-common \
