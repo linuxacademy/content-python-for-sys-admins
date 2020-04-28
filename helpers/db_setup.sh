@@ -3,7 +3,13 @@
 echo "Updating and installing Docker"
 sudo yum update -y
 sudo yum upgrade -y
-sudo yum install -y docker
+sudo yum install -y yum-utils
+
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+    
+sudo yum install docker-ce docker-ce-cli containerd.io
 
 echo "Starting and enabling Docker"
 sudo systemctl start docker
@@ -19,14 +25,17 @@ export POSTGRES_PASSWORD=$password
 sudo docker rm --force postgres || true
 
 echo "Creating database container (and seed 'sample' database)"
+sudo docker volume create pg-data
 sudo docker run -d \
   --name postgres \
   -e POSTGRES_USER=$POSTGRES_USER \
   -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
   -e POSTGRES_DB=sample \
-  -p 80:5432 \
+  -e PGDATA=/var/lib/postgresql/data/pgdata \
+  -v "pg-data:/var/lib/postgresql/data" \
+  -p "80:5432" \
   --restart always \
-  postgres:9.6.8-alpine
+  postgres:9.6-alpine
 
 sleep 20 # Ensure enough time for postgres database to initialize and create role
 
